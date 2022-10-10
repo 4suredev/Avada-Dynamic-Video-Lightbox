@@ -8,6 +8,14 @@
  * Author URI: https://4sure.com.au
  */
 define('VBL_PLUGIN_PATH', home_url().'/wp-content/plugins/avada-dynamic-video-lightbox/');
+include_once( plugin_dir_path( __FILE__ ) . 'updater.php');
+$updater = new Disable_dynamic_lightbox_updater( __FILE__ ); // instantiate our class
+$updater->set_username( '4surecarlo' ); // set username
+$updater->set_repository( 'Avada-Dynamic-Video-Lightbox' ); // set repo
+$updater->initialize(); // initialize the updater
+if( ! class_exists( 'Disable_dynamic_lightbox_updater' ) ){
+	include_once( plugin_dir_path( __FILE__ ) . 'updater.php' );
+}
 add_action( 'wp_enqueue_scripts', 'vbl_enqueue_styles' );
 function vbl_enqueue_styles(){
     wp_enqueue_style( 'dynamic-video-lightbox', VBL_PLUGIN_PATH.'css/widget-styles.css' );
