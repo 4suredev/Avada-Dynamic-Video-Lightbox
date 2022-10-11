@@ -9,11 +9,11 @@
  */
 define('VBL_PLUGIN_PATH', home_url().'/wp-content/plugins/avada-dynamic-video-lightbox/');
 include_once( plugin_dir_path( __FILE__ ) . 'updater.php');
-$updater = new Disable_dynamic_lightbox_updater( __FILE__ ); 
+$updater = new Avada_dynamic_lightbox_updater( __FILE__ ); 
 $updater->set_username( '4suredev' ); 
 $updater->set_repository( 'Avada-Dynamic-Video-Lightbox' ); 
 $updater->initialize(); 
-if( ! class_exists( 'Disable_dynamic_lightbox_updater' ) ){
+if( ! class_exists( 'Avada_dynamic_lightbox_updater' ) ){
 	include_once( plugin_dir_path( __FILE__ ) . 'updater.php' );
 }
 add_action( 'wp_enqueue_scripts', 'vbl_enqueue_styles' );

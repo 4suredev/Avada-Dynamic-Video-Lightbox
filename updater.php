@@ -1,5 +1,5 @@
 <?php
-class Disable_dynamic_lightbox_updater {
+class Avada_dynamic_lightbox_updater {
     protected $file;
     protected $plugin;
     protected $basename;
