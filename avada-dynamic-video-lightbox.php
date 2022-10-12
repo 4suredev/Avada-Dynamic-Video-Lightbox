@@ -7,8 +7,8 @@
  * Author: 4sure
  * Author URI: https://4sure.com.au
  */
-define('VBL_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-include_once( VBL_PLUGIN_PATH. 'updater.php');
+define('VBL_PLUGIN_PATH', home_url().'/wp-content/plugins/avada-dynamic-video-lightbox/');
+include_once( plugin_dir_path( __FILE__ ) . 'updater.php');
 $updater = new Avada_dynamic_lightbox_updater( __FILE__ ); 
 $updater->set_username( '4suredev' ); 
 $updater->set_repository( 'Avada-Dynamic-Video-Lightbox' ); 
