@@ -3,7 +3,7 @@
  * Plugin Name: Avada Dynamic Video Lightbox
  * Plugin URI: https://4sure.com.au
  * Description: Insert a youtube or vimeo link that plays in a lightbox. Use [lightbox_video url=""]. Add a custom thumbnail using the 'img' parameter.
- * Version: 1.0.5
+ * Version: 1.0.6
  * Author: 4sure
  * Author URI: https://4sure.com.au
  */
@@ -19,6 +19,17 @@ if( ! class_exists( 'Avada_dynamic_lightbox_updater' ) ){
 add_action( 'wp_enqueue_scripts', 'vbl_enqueue_styles' );
 function vbl_enqueue_styles(){
     wp_enqueue_style( 'dynamic-video-lightbox', VBL_PLUGIN_PATH.'css/widget-styles.css' );
+}
+add_action('admin_enqueue_scripts', 'lightbox_admin_scripts');
+function lightbox_admin_scripts($hook) {
+    // Only add to the edit post/page admin page.
+    if ('post.php' == $hook || 'post-new.php' == $hook || 'toplevel_page_access-manager' == $hook) {
+        wp_enqueue_script('vbl_admin_scripts', VBL_PLUGIN_PATH.'js/admin-scripts.js');
+        if (!wp_script_is('jquery-ui', 'enqueued')){
+            wp_enqueue_script('jquery-ui', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js');
+        }
+        
+    }else{return;}
 }
 add_shortcode('lightbox_video', 'custom_lightbox_video');
 function custom_lightbox_video($atts = array()){
@@ -61,4 +72,29 @@ function custom_lightbox_video($atts = array()){
     }
     $html .= '<div class="dynamic-video-lightbox"><a href="'.$args['url'].'" class="video-link-preview" target="lightbox" rel="iLightbox"><i class="fas fa-play" style="font-size: 24px; color: #fff;"></i><div class="thumbnail-wrap"><img class="thumbnail" loading="lazy" src="'.$image.'" height="200" width="100%"></div></a></div>';
     return $html;
+}
+function add_lightbox_media_button() {
+    $the_page = get_current_screen();
+    $current_page = $the_page->post_type;
+    $allowed = array(
+        'post',
+        'page',
+        'product',
+        'tribe_events'
+    );
+    if (in_array($current_page, $allowed, false) || $the_page->base == 'toplevel_page_access-manager' || $the_page->base == 'post'){
+        printf( '<a href="%s" class="button generate-lightbox-video-shortcode">' . '<span class="wp-media-buttons-icon dashicons dashicons-shortcode"></span> %s' . '</a>', '#', __( 'Insert Video Lightbox', 'textdomain' ) );
+    }
+}
+add_action( 'media_buttons', 'add_lightbox_media_button');
+add_action('admin_bar_menu', 'vbl_add_toolbar_items', 100);
+function vbl_add_toolbar_items($admin_bar){
+    $admin_bar->add_menu( array(
+        'id'    => 'youtube-vimeo-lightbox',
+        'title' => 'Youtube/Vimeo Lightbox',
+        'href'  => '',
+        'meta'  => array(
+            'onclick' => "navigator.clipboard.writeText(\"[lightbox_video url= img=]\");"            
+        ),
+    ));
 }
