@@ -3,7 +3,7 @@
  * Plugin Name: 4sure - Avada Dynamic Video Lightbox
  * Plugin URI: https://4sure.com.au
  * Description: Insert a youtube or vimeo link that plays in a lightbox. Use [lightbox_video url=""]. Add a custom thumbnail using the 'img' parameter.
- * Version: 1.0.9
+ * Version: 1.0.10
  * Author: 4sure
  * Author URI: https://4sure.com.au
  */
